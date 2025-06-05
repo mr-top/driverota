@@ -17,7 +17,7 @@ function Signin() {
     try {
       const loggedUser = await login(email, password, role);
 
-      setUser(loggedUser.$id);
+      setUser(loggedUser.userId);
     } catch (error) {
       setMessage(error.message);
     }

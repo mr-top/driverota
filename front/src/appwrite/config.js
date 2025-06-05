@@ -1,8 +1,13 @@
 import { Client, Account, Databases, ID } from "appwrite";
 
+const endpoint = import.meta.env.VITE_APPWRITE_ENDPOINT;
+const projectId = import.meta.env.VITE_APPWRITE_PROJECT_ID;
+const databaseId = import.meta.env.VITE_APPWRITE_DATABASE_ID;
+const databaseUsersId = import.meta.env.VITE_APPWRITE_USERS_ID;
+
 const client = new Client()
-    .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
-    .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID);
+    .setEndpoint(endpoint)
+    .setProject(projectId);
 
 const account = new Account(client);
 const databases = new Databases(client);
@@ -19,9 +24,9 @@ async function register (email, password, type) {
   )
 
   const userDb = await databases.createDocument(
-    import.meta.env.VITE_APPWRITE_DATABASE_ID,
-    import.meta.env.VITE_APPWRITE_USERS_ID,
-    ID.unique(),
+    databaseId,
+    databaseUsersId,
+    user.$id,
     {
       id: user.$id,
       email: user.email,
@@ -36,4 +41,12 @@ function logout () {
   return account.deleteSession('current');
 }
 
-export { client, account, databases, login, register, logout};
+async function getLoggedUser (userId) {
+  const session = await account.getSession('current');
+  if (session.userId === userId) {
+    const loggedUser = await databases.getDocument(databaseId, databaseUsersId, userId);
+    return {success: true, loggedUser}
+  }
+}
+
+export { client, account, databases, login, register, logout, getLoggedUser};
