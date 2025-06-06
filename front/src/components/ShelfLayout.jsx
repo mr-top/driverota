@@ -1,26 +1,37 @@
 import { useState } from "react";
 
+import Todo from "./shelf/Todo";
+import Calendar from "./shelf/Calendar";
+import Actions from "./shelf/Actions";
+import Requests from "./shelf/Requests";
+import Classroom from "./shelf/Classroom";
+
 function ShelfLayout() {
   const [option, setOption] = useState('todo');
+  const [optionLoading, setOptionLoading] = useState(false);
 
-  function getContent (option) {
+  function getContent (option, optionLoading) {
+    if (optionLoading) {
+      return <span className="loading loading-bars loading-lg"></span>
+    }
+
     switch (option) {
       case 'todo':
-        return <p>todo</p>
+        return <Todo />
       case 'calendar':
-        return <p>calendar</p>
+        return <Calendar />
       case 'actions':
-        return <p>actions</p>
+        return <Actions />
       case 'requests':
-        return <p>requests</p>
+        return <Requests />
       case 'classroom':
-        return <p>classroom</p>
+        return <Classroom />
     }
   }
 
   return (
-    <div className="bg-red-300 w-full h-full px-5">
-      <div className="flex flex-col w-full h-full bg-blue-300">
+    <div className="w-full h-full px-5">
+      <div className="flex flex-col w-full h-full space-y-1">
         <div role="tablist" className="flex-initial flex justify-around tabs tabs-box">
           <div className={`flex-initial tab ${option === 'todo' && 'tab-active'}`} onClick={() => setOption('todo')}>
             <p>Todo</p>
@@ -38,8 +49,8 @@ function ShelfLayout() {
             <p>Classroom</p>
           </div>
         </div>
-        <div className="flex-1 w-full h-full bg-green-900">
-          {getContent(option)}
+        <div className="flex-1 flex justify-center items-center w-full h-full">
+          {getContent(option, optionLoading)}
         </div>
       </div>
     </div>

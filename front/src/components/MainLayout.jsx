@@ -31,13 +31,13 @@ function MainLayout() {
 
   return (
     <div className="flex flex-col h-screen bg-blue-200">
-      <div className="flex-initial flex flex-col min-h-25 bg-green-400">
+      <div className="flex-initial flex flex-col min-h-fit bg-green-400">
         {loggedProfile.verified || <div className='flex justify-center px-2 py-1 bg-error'>
           <p className='text-xs sm:text-sm flex-initial'>Your profile is not verified. Please head to your accounts <Link to='/settings/account' className='link font-semibold'>settings</Link> to verify</p>
         </div>}
         <Nav />
       </div>
-      <div className="flex-1 flex flex-col bg-yellow-200 py-2 sm:py-4">
+      <div className="flex-1 flex flex-col bg-neutral py-2 sm:py-4">
           <ShelfLayout/>
       </div>
       <div className="flex-initial min-h-40 bg-red-300">
