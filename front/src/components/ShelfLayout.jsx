@@ -6,6 +6,54 @@ import Actions from "./shelf/Actions";
 import Requests from "./shelf/Requests";
 import Classroom from "./shelf/Classroom";
 
+const meetings = [
+  {
+    id: 1,
+    name: 'Leslie Alexander',
+    eventName: 'Driving lesson',
+    imageUrl:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    startDatetime: '1746968400',
+    endDatetime: '1746972000',
+  },
+  {
+    id: 2,
+    name: 'Michael Foster',
+    eventName: 'Driving lesson',
+    imageUrl:
+      'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    startDatetime: '1747731600',
+    endDatetime: '1747734300',
+  },
+  {
+    id: 3,
+    name: 'Dries Vincent',
+    eventName: 'Driving lesson',
+    imageUrl:
+      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    startDatetime: '1747760400',
+    endDatetime: '1747764000',
+  },
+  {
+    id: 4,
+    name: 'Leslie Alexander',
+    eventName: 'Driving lesson',
+    imageUrl:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    startDatetime: '1749470400',
+    endDatetime: '1749474000',
+  },
+  {
+    id: 5,
+    name: 'Michael Foster',
+    eventName: 'Driving exam',
+    imageUrl:
+      'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    startDatetime: '1749474900',
+    endDatetime: '1749478500',
+  },
+]
+
 function ShelfLayout() {
   const [option, setOption] = useState('todo');
   const [optionLoading, setOptionLoading] = useState(false);
@@ -19,9 +67,9 @@ function ShelfLayout() {
       case 'todo':
         return <Todo />
       case 'calendar':
-        return <Calendar />
+        return <Calendar meetings={meetings}/>
       case 'actions':
-        return <Actions />
+        return <Actions meetings={meetings}/>
       case 'requests':
         return <Requests />
       case 'classroom':
@@ -49,7 +97,7 @@ function ShelfLayout() {
             <p>Classroom</p>
           </div>
         </div>
-        <div className="flex-1 flex justify-center items-center w-full h-full">
+        <div className="flex-1 flex justify-center items-start w-full h-full">
           {getContent(option, optionLoading)}
         </div>
       </div>

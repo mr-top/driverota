@@ -19,55 +19,6 @@ import {
 
 import Event from './Event';
 
-
-const meetings = [
-  {
-    id: 1,
-    name: 'Leslie Alexander',
-    eventName: 'Driving lesson',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-05-11T13:00',
-    endDatetime: '2025-05-11T14:30',
-  },
-  {
-    id: 2,
-    name: 'Michael Foster',
-    eventName: 'Driving lesson',
-    imageUrl:
-      'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-05-20T09:00',
-    endDatetime: '2025-05-20T11:30',
-  },
-  {
-    id: 3,
-    name: 'Dries Vincent',
-    eventName: 'Driving lesson',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-05-20T17:00',
-    endDatetime: '2025-05-20T18:30',
-  },
-  {
-    id: 4,
-    name: 'Leslie Alexander',
-    eventName: 'Driving lesson',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-06-09T13:00',
-    endDatetime: '2025-06-09T14:30',
-  },
-  {
-    id: 5,
-    name: 'Michael Foster',
-    eventName: 'Driving exam',
-    imageUrl:
-      'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    startDatetime: '2025-05-13T14:00',
-    endDatetime: '2025-05-13T14:30',
-  },
-]
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -82,7 +33,7 @@ let colStartClasses = [
   'col-start-6',
 ]
 
-function Calendar() {
+function Calendar({ meetings }) {
   let today = startOfToday()
   let [selectedDay, setSelectedDay] = useState(today)
   let [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'))
@@ -103,8 +54,9 @@ function Calendar() {
     setCurrentMonth(format(firstDayNextMonth, 'MMM-yyyy'))
   }
 
-  let selectedDayMeetings = meetings.filter((meeting) =>
-    isSameDay(parseISO(meeting.startDatetime), selectedDay)
+  let selectedDayMeetings = meetings.filter((meeting) => {
+    return isSameDay(parse(meeting.startDatetime, 't', new Date()), selectedDay)
+  }
   )
 
   return (
@@ -182,7 +134,7 @@ function Calendar() {
 
                 <div className="w-1 h-1 mx-auto mt-1">
                   {meetings.some((meeting) =>
-                    isSameDay(parseISO(meeting.startDatetime), day)
+                    isSameDay(parse(meeting.startDatetime, 't', new Date()), day)
                   ) && (
                       <div className="w-1 h-1 rounded-full bg-sky-500"></div>
                     )}
@@ -201,7 +153,7 @@ function Calendar() {
           <ol className="mt-4 space-y-1 text-sm leading-6">
             {selectedDayMeetings.length > 0 ? (
               selectedDayMeetings.map((meeting) => (
-                <Event meeting={meeting} key={meeting.id}/>
+                <Event meeting={meeting} key={meeting.id} />
               ))
             ) : (
               <p>No meetings for today.</p>

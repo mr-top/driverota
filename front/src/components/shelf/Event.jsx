@@ -1,4 +1,4 @@
-import { format, parseISO } from "date-fns";
+import { format, parse } from "date-fns";
 
 function Event({ meeting }) {
   return (
@@ -11,12 +11,12 @@ function Event({ meeting }) {
           <p className="text-sm">{meeting.name}</p>
           <p className="text-xs opacity-80">{meeting.eventName}</p>
           <p className="mt-0.5">
-            <time dateTime={meeting.startDatetime}>
-              {format(meeting.startDatetime, 'h:mm a')}
+            <time dateTime={parse(meeting.startDatetime, 't', new Date())}>
+              {format(parse(meeting.startDatetime, 't', new Date()), 'h:mm a')}
             </time>{' '}
             -{' '}
             <time dateTime={meeting.endDatetime}>
-              {format(meeting.endDatetime, 'h:mm a')}
+              {format(parse(meeting.endDatetime, 't', new Date()), 'h:mm a')}
             </time>
           </p>
         </div>
